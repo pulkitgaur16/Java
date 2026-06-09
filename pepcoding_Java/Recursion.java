@@ -361,8 +361,17 @@ public class Recursion { // we can't declare a top-level class as static in java
         }
     }
 
-    public static void permutations (String str){
-        
+    public static void permutations (String ques, String ans){
+        if(ques.length()==0){
+            System.out.println(ans);
+            return;
+        }
+
+        for(int i=0; i<ques.length(); i++){
+            char ch= ques.charAt(i);
+            String roq= ques.substring(0, i) + ques.substring(i + 1); // good one
+            permutations(roq, ans+ch);
+        }
     }
 
     public static void main(String[] args) {
@@ -400,6 +409,8 @@ public class Recursion { // we can't declare a top-level class as static in java
         //printStairPaths(n, "");
 
         //printMazePaths(1, 1, 3, 3, "");
-        printMazePathswJumps(1, 1, 3, 3, "");
+        //printMazePathswJumps(1, 1, 3, 3, "");
+
+        permutations("abc", "");
     }
 }
