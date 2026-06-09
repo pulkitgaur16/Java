@@ -1,0 +1,157 @@
+// Breadth First Search (BFS)
+*Breadth First Search (BFS) is a traversal algorithm used in graphs and trees.
+It explores nodes level by level — meaning it visits all neighbors of a node first before moving deeper.
+
+🧾 BFS Algorithm (Steps)
+
+Create a queue
+
+Mark start node as visited
+
+Push start node into queue
+
+While queue is not empty:
+
+Remove node from queue
+
+Process it
+
+Add all unvisited neighbors(children)
+
+Example: used in Level order traversal of binary trees
+
+// Bubble Sort
+*Bubble Sort is a simple comparison-based sorting algorithm where adjacent elements are repeatedly compared and swapped if they are in the wrong order.
+
+Idea:
+In each pass, the largest element “bubbles up” to its correct position at the end of the array.
+
+Algorithm Steps:
+
+Compare adjacent elements.
+Swap if left > right.
+Repeat for all elements (one pass).
+After each pass, ignore the last sorted element.
+Continue until no swaps are needed.
+
+//Selection Sort
+*Selection Sort is a simple comparison-based sorting algorithm that repeatedly selects the smallest element from the unsorted part and places it at the beginning.
+
+Idea:
+Divide the array into sorted and unsorted parts. In each pass, pick the minimum element from the unsorted part and swap it with the first unsorted element.
+
+Algorithm Steps:
+
+Start from index 0.
+Find the minimum element in the remaining array.
+Swap it with the current index.
+Move to the next index and repeat.
+Continue until the array is sorted.
+
+// Insertion Sort
+*Insertion Sort is a simple comparison-based sorting algorithm that builds the sorted array one element at a time by inserting each element into its correct position.
+
+Idea:
+Assume the first element is sorted. Take the next element and insert it into the correct position in the sorted part.
+
+Algorithm Steps:
+
+Start from index 1.
+Take the current element (key).
+Compare it with elements before it.
+Shift larger elements to the right.
+Insert the key at its correct position.
+Repeat for all elements.
+
+// Merge Sort
+*Merge Sort is a divide and conquer sorting algorithm that divides the array into halves, sorts them recursively, and then merges the sorted halves.
+
+Idea:
+Break the array into smaller parts until each part has one element, then merge them in sorted order.
+
+Algorithm Steps:
+
+Divide the array into two halves.
+Recursively sort both halves.
+Merge the two sorted halves into one sorted array.
+Repeat until the whole array is sorted.
+
+Time Complexity:
+
+Best Case: O(n log n)
+Worst Case: O(n log n)
+Average Case: O(n log n)
+
+Space Complexity:
+
+O(n) (extra space required)
+
+// Quick Sort
+*Quick Sort is a divide and conquer sorting algorithm that selects a pivot element and partitions the array such that elements smaller than the pivot come before it and larger ones come after.
+
+Idea:
+Pick a pivot → place it in its correct position → recursively sort left and right parts.
+
+Algorithm Steps:
+
+Choose a pivot element.
+Partition the array around the pivot.
+Elements < pivot → left side, > pivot → right side.
+Recursively apply the same process on both sides.
+Continue until the array is sorted.
+
+Time Complexity:
+
+Best Case: O(n log n)
+Average Case: O(n log n)
+Worst Case: O(n²) (when pivot is poorly chosen)
+(if array is already sorted and pivot is taken as last element than it's the worst case)
+
+Space Complexity:
+
+O(log n) (recursion stack)
+
+// Quick Select
+*Quick Select is a selection algorithm used to find the k-th smallest (or largest) element in an array using the partition idea of Quick Sort.
+
+Idea:
+Partition the array → check pivot position → recurse only on the required side.
+
+Algorithm Steps:
+
+Choose a pivot and partition the array.
+Get pivot index pi.
+If pi == k → answer found.
+If k < pi → search left part.
+If k > pi → search right part.
+
+Time Complexity:
+
+Best/Average: O(n)
+Worst: O(n²)
+
+Space Complexity:
+
+O(log n) (recursion)
+
+// Count Sort
+*Count Sort is a non-comparison sorting algorithm that sorts elements by counting their frequency.
+
+Idea:
+Count occurrences → compute positions → place elements in correct order.
+
+Algorithm Steps:
+
+Find maximum value in array.
+Create count array of size (max + 1).
+Store frequency of each element.
+Convert count array to prefix sum.
+Place elements into output array using count.
+
+Time Complexity:
+
+O(n + k) (k = range of elements)
+
+Space Complexity:
+
+O(k)
