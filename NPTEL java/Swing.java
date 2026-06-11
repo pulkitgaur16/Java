@@ -1,15 +1,31 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class Swing extends JFrame {
+public class Swing extends JFrame implements ActionListener {
+    static JButton btn1, btn2, btn3;
     
     public Swing(){
         super("My first GUI");
     }
 
+    public void actionPerformed(ActionEvent e){
+
+        if(e.getSource()==btn1){
+            System.out.println("Button 1 clicked");
+            btn1.setEnabled(false); // disables the button after 1 click
+        }
+        if(e.getSource()==btn2){
+            System.out.println("Button 2 clicked");
+        }
+        if(e.getSource()==btn3){
+            System.out.println("Button 3 clicked");
+        }
+    }
     public static void main(String args[]){
         // JFrame : to create a container window
         Swing frame= new Swing();
@@ -50,6 +66,23 @@ public class Swing extends JFrame {
         yellowPanel.setBackground(Color.yellow);
         yellowPanel.setBounds(250,250,250,250);
 
+        // JButton
+        btn1= new JButton("Button 1");
+        btn1.setBounds(250,10,100,50);
+        btn1.setFocusable(false);
+        btn2= new JButton("Button 2");
+        btn2.setBounds(250,100,100,50);
+        btn2.setFocusable(false);
+        btn3= new JButton();
+        btn3.setBounds(250,250,200,200);
+        btn3.setFocusable(false);
+        ImageIcon icon= new ImageIcon("java.png");
+        btn3.setIcon(icon);
+
+        btn1.addActionListener(frame); // in bracket comes the object which receives the event
+        btn2.addActionListener(frame);
+        btn3.addActionListener(frame);
+
         //frame.add(label); 
         frame.setSize(500,500);
         frame.setLayout(null);
@@ -59,10 +92,14 @@ public class Swing extends JFrame {
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         // frame.pack(); // sets size of frame which is enough to display label
         // frame.setResizable(false);
-        frame.add(redPanel);
-        frame.add(grayPanel);
-        frame.add(bluePanel);
-        frame.add(yellowPanel);
+        // frame.add(redPanel);
+        // frame.add(grayPanel);
+        // frame.add(bluePanel);
+        // frame.add(yellowPanel);
         //redPanel.add(label);
+
+        frame.add(btn1);
+        frame.add(btn2);
+        frame.add(btn3);
     }
 }
