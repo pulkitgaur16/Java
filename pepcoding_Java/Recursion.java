@@ -374,6 +374,31 @@ public class Recursion { // we can't declare a top-level class as static in java
         }
     }
 
+    static String[] code = {"", "a", "b", "c", "d", "e", "f","g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+    public static void printEncodings(String ques,  String ans){
+        if(ques.contains("0")){
+            return;
+        }
+        if(ques.length()==0){
+            System.out.println(ans);
+            return;
+        }
+
+        String roq= "";
+        String answ= "";
+        if(ques.length()>0){
+            answ= code[Integer.parseInt(ques.substring(0,1))];
+            roq= ques.substring(1);
+            printEncodings(roq, ans+answ);
+        }
+
+        if(ques.length()>1 && Integer.parseInt(ques.substring(0,2))<=26){
+            answ= code[Integer.parseInt(ques.substring(0,2))];
+            roq= ques.substring(2);
+            printEncodings(roq, ans+answ);
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
         // Fibonacci seq= new Fibonacci();
@@ -411,6 +436,8 @@ public class Recursion { // we can't declare a top-level class as static in java
         //printMazePaths(1, 1, 3, 3, "");
         //printMazePathswJumps(1, 1, 3, 3, "");
 
-        permutations("abc", "");
+        //permutations("abc", "");
+
+        printEncodings("303", "");
     }
 }
