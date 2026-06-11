@@ -399,6 +399,42 @@ public class Recursion { // we can't declare a top-level class as static in java
         }
     }
 
+    public static void FloodFill(int[][] arr, int sr, int sc, String path, boolean visited[][]){
+        if(sr<0 || sc<0 || sr>=arr.length || sc>= arr[0].length || arr[sr][sc]==1 || visited[sr][sc]==true){
+            return;
+        }
+        if(sr==arr.length-1 && sc==arr[0].length-1){
+            System.out.println(path);
+            return;
+        }
+
+        visited[sr][sc]= true;
+
+        FloodFill(arr, sr-1, sc, path, visited);
+        FloodFill(arr, sr, sc-1, path, visited);
+        FloodFill(arr, sr+1, sc, path, visited);
+        FloodFill(arr, sr, sc+1, path, visited);
+        visited[sr][sc]= false;
+
+
+        // if(sr>0 && arr[sr-1][sc]==0){
+        //     path= path+"t";
+        //     FloodFill(arr, sr-1, sc, n, m, path);
+        // }
+        // if(sc>0 && arr[sr][sc-1]==0){
+        //     path= path+"l";
+        //     FloodFill(arr, sr, sc-1, n, m, path);
+        // }
+        // if(sr<n-1 && arr[sr+1][sc]==0){
+        //     path= path+"d";
+        //     FloodFill(arr, sr+1, sc, n, m, path);
+        // }
+        // if(sc<m-1 && arr[sr][sc+1]==0){
+        //     path= path+"r";
+        //     FloodFill(arr, sr, sc+1, n, m, path);
+        // }
+    }
+
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
         // Fibonacci seq= new Fibonacci();
@@ -410,6 +446,7 @@ public class Recursion { // we can't declare a top-level class as static in java
 
         // int x= scn.nextInt();
         int n= scn.nextInt();
+        int m= scn.nextInt();
         // printDecreasing(n);
         //printDecInc(n);
         // int fact= Factorial(n);
@@ -429,6 +466,14 @@ public class Recursion { // we can't declare a top-level class as static in java
         // } 
         // displayArr(arr, n);
 
+        int[][] arr = new int[n][m];
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                arr[i][j]= scn.nextInt();
+            }
+        }
+
         //System.out.println(AIndices(arr, 0, 5));
 
         //printStairPaths(n, "");
@@ -438,6 +483,8 @@ public class Recursion { // we can't declare a top-level class as static in java
 
         //permutations("abc", "");
 
-        printEncodings("303", "");
+        //printEncodings("303", "");
+
+        FloodFill(arr, 0, 0, n, m, "");
     }
 }
