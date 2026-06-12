@@ -435,6 +435,19 @@ public class Recursion { // we can't declare a top-level class as static in java
         // }
     }
 
+    public static void printTargetSumPairs(int[] arr, int idx, String set, int sos, int tar){
+        if(idx==arr.length && sos==tar){
+            System.out.println(set);
+            return;
+        }
+        else if(idx==arr.length && sos!=tar){
+            return;
+        }
+
+        printTargetSumPairs(arr, idx+1, set+ arr[idx]+" ", sos+arr[idx], tar);
+        printTargetSumPairs(arr, idx+1, set, sos, tar);
+    }
+
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
         // Fibonacci seq= new Fibonacci();
@@ -460,19 +473,19 @@ public class Recursion { // we can't declare a top-level class as static in java
         // int t3d= scn.nextInt();
         // HanoiTower(n, t1d, t2d, t3d); 
 
-        // int[] arr= new int[n];
-        // for(int i=0; i<n; i++){
-        //     arr[i] = scn.nextInt();
-        // } 
+        int[] arr= new int[n];
+        for(int i=0; i<n; i++){
+            arr[i] = scn.nextInt();
+        } 
         // displayArr(arr, n);
 
-        int[][] arr = new int[n][m];
+        // int[][] arr = new int[n][m];
 
-        for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                arr[i][j]= scn.nextInt();
-            }
-        }
+        // for(int i=0; i<n; i++){
+        //     for(int j=0; j<m; j++){
+        //         arr[i][j]= scn.nextInt();
+        //     }
+        // }
 
         //System.out.println(AIndices(arr, 0, 5));
 
@@ -485,6 +498,8 @@ public class Recursion { // we can't declare a top-level class as static in java
 
         //printEncodings("303", "");
 
-        FloodFill(arr, 0, 0, n, m, "");
+        //FloodFill(arr, 0, 0, n, m, "");
+
+        printTargetSumPairs(arr, 0, "", 0, m);
     }
 }
