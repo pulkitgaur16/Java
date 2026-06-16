@@ -482,6 +482,92 @@ public class Recursion { // we can't declare a top-level class as static in java
         return true;
     }
 
+    static int n=1;
+    public static void printKnightTours(int[][] chess, String ksf, int row, int col) { // with global variable
+
+    chess[row][col] = n;
+
+    if (n == chess.length * chess[0].length) {
+        displayBoard(chess);
+        chess[row][col] = 0;
+        return;
+    }
+
+    n++;
+
+    if (CanPlace(chess, row - 2, col + 1))
+        printKnightTours(chess, ksf + row + "," + col + "-", row - 2, col + 1);
+
+    if (CanPlace(chess, row - 1, col + 2))
+        printKnightTours(chess, ksf + row + "," + col + "-", row - 1, col + 2);
+
+    if (CanPlace(chess, row + 1, col + 2))
+        printKnightTours(chess, ksf + row + "," + col + "-", row + 1, col + 2);
+
+    if (CanPlace(chess, row + 2, col + 1))
+        printKnightTours(chess, ksf + row + "," + col + "-", row + 2, col + 1);
+
+    if (CanPlace(chess, row + 2, col - 1))
+        printKnightTours(chess, ksf + row + "," + col + "-", row + 2, col - 1);
+
+    if (CanPlace(chess, row + 1, col - 2))
+        printKnightTours(chess, ksf + row + "," + col + "-", row + 1, col - 2);
+
+    if (CanPlace(chess, row - 1, col - 2))
+        printKnightTours(chess, ksf + row + "," + col + "-", row - 1, col - 2);
+
+    if (CanPlace(chess, row - 2, col - 1))
+        printKnightTours(chess, ksf + row + "," + col + "-", row - 2, col - 1);
+
+    n--;
+    chess[row][col] = 0;
+    }
+    public static boolean CanPlace(int[][] chess, int row, int col){
+        if(row<chess.length && row>=0 && col<chess[0].length && col>=0 && chess[row][col]==0){
+            return true;
+        }
+        return false;
+    }
+
+    public static void printKnightTours(int[][] chess, int row, int col, int moveNo) { // without global variable (preferred)
+
+    if(row < 0 || row >= chess.length ||
+       col < 0 || col >= chess[0].length ||
+       chess[row][col] > 0) {
+        return;
+    }
+
+    if(moveNo == chess.length * chess[0].length) {
+        chess[row][col] = moveNo;
+        displayBoard(chess);
+        chess[row][col] = 0;
+        return;
+    }
+
+    chess[row][col] = moveNo;
+
+    printKnightTours(chess,row-2,col+1,moveNo+1);
+    printKnightTours(chess,row-1,col+2,moveNo+1);
+    printKnightTours(chess,row+1,col+2,moveNo+1);
+    printKnightTours(chess,row+2,col+1,moveNo+1);
+    printKnightTours(chess,row+2,col-1,moveNo+1);
+    printKnightTours(chess,row+1,col-2,moveNo+1);
+    printKnightTours(chess,row-1,col-2,moveNo+1);
+    printKnightTours(chess,row-2,col-1,moveNo+1);
+
+    chess[row][col] = 0;
+    }
+
+    public static void displayBoard(int[][] board){
+        for(int i=0;i<board.length;i++){
+            for(int j=0; j<board.length;j++){
+                System.out.print(board[i][j]+" ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
         // Fibonacci seq= new Fibonacci();
@@ -536,6 +622,8 @@ public class Recursion { // we can't declare a top-level class as static in java
 
         //printTargetSumPairs(arr, 0, "", 0, m);
 
-        printNQueens(arr, "", 0);
+        //printNQueens(arr, "", 0);
+
+        printKnightTours(arr, "", 0, 0);
     }
 }
