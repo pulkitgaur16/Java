@@ -1,4 +1,6 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -83,13 +85,45 @@ public class Swing extends JFrame implements ActionListener {
         btn2.addActionListener(frame);
         btn3.addActionListener(frame);
 
+        // Layout Manager: defines natural layout for components within a container
+
+        // 3 common managers
+
+        //1) BorderLayout: a border layout places components in five areas
+        // NORTH, SOUTH, WEST, EAST, CENTER
+        // all extra space is placed in the center area 
+
+        JPanel panel1= new JPanel();
+        JPanel panel2= new JPanel();
+        JPanel panel3= new JPanel();
+        JPanel panel4= new JPanel();
+        JPanel panel5= new JPanel();
+
+        panel1.setBackground(Color.BLUE);
+        panel2.setBackground(Color.YELLOW);
+        panel3.setBackground(Color.GREEN);
+        panel4.setBackground(Color.RED);
+        panel5.setBackground(Color.BLACK);
+
+        panel1.setPreferredSize(new Dimension(100, 100));
+        panel2.setPreferredSize(new Dimension(100, 100));
+        panel3.setPreferredSize(new Dimension(100, 100));
+        panel4.setPreferredSize(new Dimension(100, 100));
+        panel5.setPreferredSize(new Dimension(100, 100));
+
+        //2) FlowLayout: it places components in a row, sized at their preffered size
+        //if the horizontal space in the container is small, it uses next row 
+
+        //3) GridLayout: Places components in a grid of cells
+        // each component takes all the available space within its cell, and each is the same size
+
         //frame.add(label); 
         frame.setSize(500,500);
-        frame.setLayout(null);
-        frame.setVisible(true);
+        frame.setLayout(new BorderLayout(10,10));
         ImageIcon img= new ImageIcon("supra.jpg");
         frame.setIconImage(img.getImage());
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //frame.getDefaultCloseOperation();
         // frame.pack(); // sets size of frame which is enough to display label
         // frame.setResizable(false);
         // frame.add(redPanel);
@@ -98,8 +132,15 @@ public class Swing extends JFrame implements ActionListener {
         // frame.add(yellowPanel);
         //redPanel.add(label);
 
-        frame.add(btn1);
-        frame.add(btn2);
-        frame.add(btn3);
+        // frame.add(btn1);
+        // frame.add(btn2);
+        // frame.add(btn3);
+
+        frame.add(panel1, BorderLayout.NORTH);
+        frame.add(panel2, BorderLayout.WEST);
+        frame.add(panel3, BorderLayout.EAST);
+        frame.add(panel4, BorderLayout.SOUTH);
+        frame.add(panel5, BorderLayout.CENTER);
+        frame.setVisible(true);
     }
 }
