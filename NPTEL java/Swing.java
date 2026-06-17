@@ -31,69 +31,6 @@ public class Swing extends JFrame implements ActionListener {
         }
     }
 
-    public class Destination extends JFrame implements ActionListener{
-        JButton btnOpenPrevWindow;
-
-        public Destination(){
-            initComponents();
-        }
-        
-        private void initComponents(){
-            setTitle("Destination window");
-            setSize(500,500);
-            setLayout(null);
-            setLocationRelativeTo(null);
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-            btnOpenPrevWindow= new JButton("Open Source Window");
-            btnOpenPrevWindow.setBounds(50,50,200,40);
-            btnOpenPrevWindow.setFocusable(false);
-            btnOpenPrevWindow.addActionListener(this);
-
-            add(btnOpenPrevWindow);
-            setVisible(true);
-        }
-
-        public void actionPerformed(ActionEvent e){
-            if(e.getSource() == btnOpenPrevWindow){
-                Source source= new Source();
-                dispose();
-            }
-        }
-    }
-
-    public class Source extends JFrame{
-        JButton btnOpenNextWindow;
-
-        public Source(){
-            initComponents();
-        }
-        
-        private void initComponents(){
-            setTitle("Source window");
-            setSize(500,500);
-            setLayout(null);
-            setLocationRelativeTo(null);
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-            btnOpenNextWindow= new JButton("Open destination Window");
-            btnOpenNextWindow.setBounds(50,50,200,40);
-            btnOpenNextWindow.setFocusable(false);
-
-            btnOpenNextWindow.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e){
-                dispose();
-                Destination destination = new Destination();
-            }
-            });
-
-            add(btnOpenNextWindow);
-            setVisible(true);
-
-        }
-    }
-
     public static void main(String args[]){
         // JFrame : to create a container window
         //Swing frame= new Swing();
