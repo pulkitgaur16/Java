@@ -4,11 +4,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.print.attribute.standard.Destination;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.xml.transform.Source;
 
 public class Swing extends JFrame implements ActionListener {
     static JButton btn1, btn2, btn3;
