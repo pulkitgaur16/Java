@@ -30,7 +30,7 @@ public class Swing extends JFrame implements ActionListener {
 
     public static void main(String args[]){
         // JFrame : to create a container window
-        //Swing frame= new Swing();
+        // Swing frame= new Swing();
         
         //frame.getContentPane().setBackground(Color.gray);
 
@@ -145,7 +145,27 @@ public class Swing extends JFrame implements ActionListener {
         // Connect Multiple windows
         //Source source = new Source();
 
-        
+        //JOptionPane: pop up a standard dialog box that prompts users for a value or informs them of something
+        // JOptionPane.showMessageDialog(null, "This is plain message", "Title", JOptionPane.PLAIN_MESSAGE);
+        // JOptionPane.showMessageDialog(null, "This is information message !!", "Title", JOptionPane.INFORMATION_MESSAGE);
+        // JOptionPane.showMessageDialog(null, "This is question message ?", "Title", JOptionPane.QUESTION_MESSAGE);
+
+        // while(true){
+        //     JOptionPane.showMessageDialog(null, "This is warning message x", "Title", JOptionPane.WARNING_MESSAGE);
+        // }
+
+        //JOptionPane.showMessageDialog(null, "This is error message...", "Title", JOptionPane.ERROR_MESSAGE);
+
+        // int result= JOptionPane.showConfirmDialog(null, "Do you know how to code", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+        // System.out.println(result);
+
+        // String name = JOptionPane.showInputDialog("Enter your name :");
+        // System.out.println(name);
+
+        ImageIcon icon = new ImageIcon("java.png");
+        String[] options=  {"Yes", "No", "Prefer not to say"};
+        JOptionPane.showOptionDialog(null, "Choose any one", "Secret Message", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon, options, 0);
+
         //frame.add(label); 
         // frame.setSize(500,500);
         // frame.setLayout(null);
