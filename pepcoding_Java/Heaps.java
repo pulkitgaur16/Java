@@ -20,6 +20,83 @@ public class Heaps {
     // Min-Heap (Smallest element first)
     // Max-Heap (Largest element first)
 
+    public static class MedianPriorityQueue{
+        PriorityQueue<Integer> left; // for smaller half of data
+        PriorityQueue<Integer> right; // for greater half of data
+
+        public MedianPriorityQueue(){
+            left= new PriorityQueue<>(Collections.reverseOrder());
+            right= new PriorityQueue<>();
+        }
+
+        void add(int num){
+
+            if(left.isEmpty() || num<=left.peek()){
+                left.add(num);
+            }
+            else{
+                right.add(num);
+            }
+
+            if(left.size()>right.size()+1){
+                right.add(left.remove());
+            }
+            else if(right.size()>left.size()){
+                left.add(right.remove());
+            }
+        }
+
+        int peek(){
+            if(this.size()==0){
+                System.out.println("Underflow");
+                return -1;
+            }
+
+            return left.peek();
+        }
+
+        int size(){
+            return (left.size()+right.size());
+        }
+
+        int remove(){
+            if(this.size()==0){
+                System.out.println("Underflow");
+                return -1;
+            }
+
+            int val = left.remove();
+
+            if(right.size() > left.size()){
+                left.add(right.remove());
+            }
+
+            return val;
+        }
+    }
+
+    public static int[] KSortedArray(int[] arr, int k){
+
+        PriorityQueue<Integer> pq= new PriorityQueue<>();
+        int idx = 0;
+        
+        for(int i=0; i<arr.length; i++){
+            if(i<k+1){
+                pq.add(arr[i]);
+            }
+            else{
+                arr[idx++] = pq.remove();
+                pq.add(arr[i]);
+            }
+        }
+
+        while (!pq.isEmpty()) {
+            arr[idx++] = pq.remove();
+        }
+
+        return arr;
+    }
+
     public static void main(String[] args){
         PriorityQueue<Integer> pq= new PriorityQueue<>(); // for Min-Heap
         //PriorityQueue<Integer> pq= new PriorityQueue<>(Collections.reverseOrder()); // for Max-Heap
