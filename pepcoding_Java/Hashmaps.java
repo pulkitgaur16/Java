@@ -60,7 +60,7 @@ public class Hashmaps {
         hm.put("US", 20);
        // hm.put("Germany"); // gives error
 
-        //System.out.println(hm); // order of elements is not in our control
+        System.out.println(hm); // order of elements is not in our control
 
         hm.put("Nigeria", 5);
         hm.put("US", 25);
@@ -84,21 +84,21 @@ public class Hashmaps {
         // char CharwithHighestfreq= highestfreq("abbbc");
         // System.out.println(CharwithHighestfreq);
 
-        Scanner scn = new Scanner(System.in);
-        int n= scn.nextInt();
-        int m= scn.nextInt();
+        // Scanner scn = new Scanner(System.in);
+        // int n= scn.nextInt();
+        // int m= scn.nextInt();
 
-        int[] arr1= new int[n];
-        int[] arr2= new int[m];
+        // int[] arr1= new int[n];
+        // int[] arr2= new int[m];
 
-        for(int i=0; i<n; i++){
-            arr1[i]= scn.nextInt();
-        }
+        // for(int i=0; i<n; i++){
+        //     arr1[i]= scn.nextInt();
+        // }
 
-        for(int i=0; i<m; i++){
-            arr2[i]= scn.nextInt();
-        }
+        // for(int i=0; i<m; i++){
+        //     arr2[i]= scn.nextInt();
+        // }
 
-        getCommonElement(arr1, arr2);
+        // getCommonElement(arr1, arr2);
     }
 }
