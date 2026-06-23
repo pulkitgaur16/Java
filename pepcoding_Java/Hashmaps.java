@@ -8,6 +8,139 @@ public class Hashmaps {
     // functions of hashmaps
     //put(), get(), containsKey(), keySet() -> all works in O(1)
 
+    public static class HashMap<K, V> {
+        private class HMNode{
+            K key;
+            V value;
+
+            HMNode(K key, V value){
+                this.key= key;
+                this.value= value;
+            }
+        }
+
+        private int size; // total number of elements
+        private LinkedList<HMNode>[] buckets;
+
+        public HashMap(){
+            initbuckets(4);
+            size=0;
+        }
+
+        private void initbuckets(int N) { // N= length of array
+            buckets= new LinkedList[N];
+            for(int bi=0; bi<buckets.length; bi++) {
+                buckets[i] = new LinkedList<>();
+            }
+        }
+
+        public void put(K key, V val){
+            int bi = hashfn(key);
+            int di = getIndexWithinBucket(key, bi);
+
+            if(di != -1){
+                HMNode node = buckets[bi].get(di);
+                node.value= val;
+            }
+            else{
+                HMNode node =  new HMNode(key,val);
+                buckets[bi].add(node);
+                size++;
+            }
+
+            double lambda = size*1.0 / buckets.length;
+            if(lambda > 2.0){
+                rehash();
+            }
+        }
+
+        private void rehash(){
+            LinkedList<HMNode>[] oba = buckets;
+
+            initbuckets(oba.length*2);
+            size=0;
+
+            for(int i=0; i<oba.length; i++){
+                for(HMNode node: oba[i]){
+                    put(node.key, node.value);
+                }
+            }
+        }
+
+        public boolean containsKey(K key){
+            int bi = hashfn(key);
+            int di = getIndexWithinBucket(key, bi);
+
+            if(di != -1){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        public V get(K key){
+            int bi = hashfn(key);
+            int di = getIndexWithinBucket(key, bi);
+
+            if(di != -1){
+                HMNode node = buckets[bi].get(di);
+                return node.value;
+            }
+            else{
+                return null;
+            }
+        }
+
+        public V remove(K key){
+            int bi = hashfn(key);
+            int di = getIndexWithinBucket(key, bi);
+
+            if(di != -1){
+                HMNode node = buckets[bi].remove(di);
+                size--;
+                return node.value;
+            }
+            else{
+                return null;
+            }
+        }
+
+        private int hashfn(K key){
+            int hc = key.hashCode(); // all integers, alphabets has its own hashcode
+            // hashcode can be -ve or +ve
+            return Math.abs(hc) % buckets.length;
+        }
+
+        private int getIndexWithinBucket(K key, int bi){
+            int di=0
+            for(HMnode node: buckets[bi]){
+                if(node.key.equals(key)){
+                    return di;
+                }
+                di++;
+            }
+
+            return -1;
+        }
+
+        public ArrayList<K> keyset(){
+            ArrayList<K> keys = new ArrayList<>();
+
+            for(int bi=0; bi<buckets.length; i++){
+                for(HMNode node: buckets[i]){
+                    keys.add(node.key);
+                }
+            }
+
+            return keys;
+        }
+
+        public int size(){
+            return size;
+        }
+    }
+
     public static char highestfreq(String str){
         HashMap<Character, Integer> hm = new HashMap<>();
         int freq=0;
