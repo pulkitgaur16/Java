@@ -75,36 +75,64 @@ public class Heaps {
         }
     }
 
-    public static class PriorityQueue{
-        ArrayList<Integer> data;
+    public static class PriorityQueue<T>{
+        ArrayList<T> data;
 
-        public void add(int val){
+        public PriorityQueue(){
+            data = new ArrayList<>();
+        }
+
+        public PriorityQueue(int[] arr){
+            data= new ArrayList<>();
+            for(int val: arr){
+                data.add(val); // if we write this.add(val) it will call add method and hence will call upheapify
+                // which will take O(nlogn) time 
+            }
+
+            for(int i= data.size()/2 - 1; i>=0; i--){
+                downheapify(i);  // by this way we have reduced time to O(n)
+            }
+        }
+
+        private boolean isSmaller(int i, int j){
+            Comparable ith= (Comparable)data.get(i);
+            Comparable jth= (Comparable)data.get(j);
+            if(ith.compareTo(jth)<0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        public void add(T val){
             data.add(val);
             upheapify(data.size()-1);
         }
 
         private void upheapify(int i){
             int pi = (i-1)/2;
-            if(data.get(i)<data.get(pi)){
+            if(isSmaller(i, pi)){
                 swap(i, pi);
                 upheapify(pi);
             }
         }
 
         private void swap(int i, int j){
-            int temp= data.get(i);
-            data.set(i, data.get(j));
-            data.set(j, temp);
+            T ith = data.get(i);
+            T jth = data.get(j);
+            data.set(i, jth);
+            data.set(j, ith);
         }
 
-        public int remove(){
+        public T remove(){
             if(this.size()==0){
                 System.out.println("Underflow");
-                return -1;
+                return null;
             }
 
             swap(0, data.size()-1);
-            int val= data.remove(data.size()-1);
+            T val= data.remove(data.size()-1);
             downheapify(0);
             return val;
         }
@@ -113,13 +141,13 @@ public class Heaps {
             int mini = pi;
 
             int li= 2*pi+1;
-            if(li<data.size() && data.get(li)< data.get(mini)){
+            if(li<data.size() && isSmaller(li, mini)){
                 mini=li;
             }
 
             int ri= 2*pi+2;
-            if(ri<data.size() && data.get(ri)< data.get(mini)){
-                mini=li;
+            if(ri<data.size() && isSmaller(ri, mini)){
+                mini=ri;
             }
 
             if(mini != pi){
@@ -128,10 +156,10 @@ public class Heaps {
             }
         }
         
-        public int peek(){
+        public T peek(){
             if(this.size()==0){
                 System.out.println("Underflow");
-                return -1;
+                return null;
             }
 
             return data.get(0);
@@ -154,6 +182,27 @@ public class Heaps {
 
         public int compareTo(Pair o){
             return this.val - o.val;
+        }
+    }
+
+    public static class Student implements Comparable<Student>{
+        int rno;
+        int ht;
+        int wt;
+
+        Student(int rno, int ht, int wt){
+            this.rno = rno;
+            this.ht = ht;
+            this.wt = wt;
+        }
+
+        public int compareTo(Student o){
+            // return this.ht - o.ht;
+            return o.ht - this.ht;
+        }
+
+        public String toString(){
+            return "rno = " + this.rno + ", Ht = " + this.ht + ", Wt = " + this.wt;
         }
     }
 
@@ -203,13 +252,26 @@ public class Heaps {
     }
 
     public static void main(String[] args){
-        PriorityQueue<Integer> pq= new PriorityQueue<>(); // for Min-Heap
+        //PriorityQueue<Integer> pq= new PriorityQueue<>(); // for Min-Heap
         //PriorityQueue<Integer> pq= new PriorityQueue<>(Collections.reverseOrder()); // for Max-Heap
-        int[] ranks = {22,99,3,11,88,4,1};
-        for(int val: ranks){ // O(nlogn)
-            pq.add(val);
-        }
+        // int[] ranks = {22,99,3,11,88,4,1};
+        // for(int val: ranks){ // O(nlogn)
+        //     pq.add(val);
+        // }
 
+        // while(pq.size()>0){
+        //     System.out.println(pq.peek());
+        //     pq.remove();
+        // }
+
+        PriorityQueue<Student> pq= new PriorityQueue<>();
+
+        pq.add(new Student(10, 180, 85));
+        pq.add(new Student(2, 185, 85));
+        pq.add(new Student(12, 170, 84));
+        pq.add(new Student(18, 179, 88));
+        pq.add(new Student(7, 182, 82));
+        
         while(pq.size()>0){
             System.out.println(pq.peek());
             pq.remove();
