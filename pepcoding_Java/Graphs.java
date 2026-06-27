@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -60,11 +61,29 @@ public class Graphs {
             graph[v2].add(new Edge(v2, v1, wt));
         }
 
-        int src = Integer.parseInt(br.readLine());
-        int dest = Integer.parseInt(br.readLine());
+        // int src = Integer.parseInt(br.readLine());
+        // int dest = Integer.parseInt(br.readLine());
+
+        // boolean[] visited = new boolean[vtces];
+        // boolean path = hasPath(graph, src, dest, visited);
+
+        ArrayList<ArrayList<Integer>> comps = new ArrayList<>();
 
         boolean[] visited = new boolean[vtces];
-        boolean path = hasPath(graph, src, dest, visited);
+        for(int v =0; v<vtces; v++){
+            if(visited[v] == false){
+                ArrayList<Integer> comp = new ArrayList<>();
+                drawTree(graph, v, comp, visited);
+                comps.add(comp);
+            }
+        }
+
+        //System.out.println(comps);
+
+        // if we need to find the whole graph is connected or not we need to check the
+        // length of comps, if it is 1 the whole graph is connected
+
+        System.out.println(comps.size() == 1);
     }
 
     public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
@@ -153,4 +172,15 @@ public class Graphs {
         }
         visited[src]=false;
     }
+
+    public static void drawTree(ArrayList<Edge>[] graph, int src, ArrayList<Integer> comp, boolean[] visited){
+        visited[src] = true;
+        comp.add(src);
+        for(Edge e : graph[src]){
+            if(!visited[e.nbr]){
+                drawTree(graph, e.nbr, comp, visited);
+            }
+        }
+    }
+     
 }
