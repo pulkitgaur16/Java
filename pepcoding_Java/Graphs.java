@@ -67,23 +67,33 @@ public class Graphs {
         // boolean[] visited = new boolean[vtces];
         // boolean path = hasPath(graph, src, dest, visited);
 
-        ArrayList<ArrayList<Integer>> comps = new ArrayList<>();
+        // ArrayList<ArrayList<Integer>> comps = new ArrayList<>();
 
-        boolean[] visited = new boolean[vtces];
-        for(int v =0; v<vtces; v++){
-            if(visited[v] == false){
-                ArrayList<Integer> comp = new ArrayList<>();
-                drawTree(graph, v, comp, visited);
-                comps.add(comp);
-            }
-        }
+        // boolean[] visited = new boolean[vtces];
+        // for(int v =0; v<vtces; v++){
+        //     if(visited[v] == false){
+        //         ArrayList<Integer> comp = new ArrayList<>();
+        //         drawTree(graph, v, comp, visited);
+        //         comps.add(comp);
+        //     }
+        // }
 
         //System.out.println(comps);
 
         // if we need to find the whole graph is connected or not we need to check the
         // length of comps, if it is 1 the whole graph is connected
 
-        System.out.println(comps.size() == 1);
+       // System.out.println(comps.size() == 1);
+
+       boolean[][] visited = new boolean[arr.length][arr[0].length];
+       int count=0;
+
+       for(int i=0; i<arr.length; i++){
+        for(int j=0; j<arr[0].length; j++){
+            drawTreeForComponent(arr, i, j, visited);
+            count++;
+        }
+       }
     }
 
     public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
@@ -181,6 +191,18 @@ public class Graphs {
                 drawTree(graph, e.nbr, comp, visited);
             }
         }
+    }
+
+    public static void drawTreeForComponent(int[][] arr, int i, int j, boolean[][] visited){
+        if(i<0 || j<0 || i>=arr.length || j>=arr[0].length || arr[i][j]==1 || visited[i][j] == true){
+            return;
+        }
+        visited[i][j] = true;
+
+        drawTreeForComponent(arr, i-1, j, visited);
+        drawTreeForComponent(arr, i, j+1, visited);
+        drawTreeForComponent(arr, i, j-1, visited);
+        drawTreeForComponent(arr, i+1, j, visited);
     }
      
 }
