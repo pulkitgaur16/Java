@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class Graphs {
@@ -61,7 +62,8 @@ public class Graphs {
             graph[v2].add(new Edge(v2, v1, wt));
         }
 
-        // int src = Integer.parseInt(br.readLine());
+        int src = Integer.parseInt(br.readLine());
+        
         // int dest = Integer.parseInt(br.readLine());
 
         // boolean[] visited = new boolean[vtces];
@@ -85,15 +87,17 @@ public class Graphs {
 
        // System.out.println(comps.size() == 1);
 
-       boolean[][] visited = new boolean[arr.length][arr[0].length];
-       int count=0;
+    //    boolean[][] visited = new boolean[arr.length][arr[0].length];
+    //    int count=0;
 
-       for(int i=0; i<arr.length; i++){
-        for(int j=0; j<arr[0].length; j++){
-            drawTreeForComponent(arr, i, j, visited);
-            count++;
-        }
-       }
+    //    for(int i=0; i<arr.length; i++){
+    //     for(int j=0; j<arr[0].length; j++){
+    //         drawTreeForComponent(arr, i, j, visited);
+    //         count++;
+    //     }
+    //    }
+        HashSet<Integer> visited = new HashSet<>();
+        hamiltonian(graph, src, visited, src + "", 0);
     }
 
     public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
@@ -104,7 +108,7 @@ public class Graphs {
         visited[src] = true;
         for(Edge edge : graph[src]){
             if(visited[edge.nbr] == false){
-                boolean hasNbrPath = hasPath(graph, edge.nbr, dest);
+                boolean hasNbrPath = hasPath(graph, edge.nbr, dest, visited);
                 if(hasNbrPath == true){
                     return true;
                 }
@@ -204,5 +208,34 @@ public class Graphs {
         drawTreeForComponent(arr, i, j-1, visited);
         drawTreeForComponent(arr, i+1, j, visited);
     }
+
+    public static void hamiltonian(ArrayList<Edge>[] graph, int src, HashSet<Integer> visited, String psf, int osrc){
+
+        if(visited.size() == graph.length-1){
+            System.out.println(psf);
+            boolean closingEdgeFound = false;
+            for(Edge e: graph[src]){
+                if(e.nbr == osrc){
+                    closingEdgeFound = true;
+                    break;
+                }
+            }
+
+            if(closingEdgeFound){
+                System.out.println("*");
+            }
+            else{
+                System.out.println(".");
+            }
+            return;
+        }
+        visited.add(src);
+        for(Edge e : graph[src]){
+            if(visited.contains(e.nbr) ==  false){
+                hamiltonian(graph, e.nbr, visited, psf+e.nbr, osrc);
+            }
+        }
+        visited.remove(src);
+    } 
      
 }
