@@ -8,6 +8,14 @@ public class Hashmaps {
     // functions of hashmaps
     //put(), get(), containsKey(), keySet() -> all works in O(1)
 
+    //** HASHSET IN JAVA
+    // Insert/add - O(1)
+    // Search/Contains - O(1)
+    // Delete/Remove - O(1)
+
+    // Hashset only contains unique elements
+    // they are unordered
+
     public static class HashMap<K, V> {
         private class HMNode{
             K key;
@@ -30,7 +38,7 @@ public class Hashmaps {
         private void initbuckets(int N) { // N= length of array
             buckets= new LinkedList[N];
             for(int bi=0; bi<buckets.length; bi++) {
-                buckets[i] = new LinkedList<>();
+                buckets[bi] = new LinkedList<>();
             }
         }
 
@@ -113,8 +121,8 @@ public class Hashmaps {
         }
 
         private int getIndexWithinBucket(K key, int bi){
-            int di=0
-            for(HMnode node: buckets[bi]){
+            int di=0;
+            for(HMNode node: buckets[bi]){
                 if(node.key.equals(key)){
                     return di;
                 }
@@ -127,8 +135,8 @@ public class Hashmaps {
         public ArrayList<K> keyset(){
             ArrayList<K> keys = new ArrayList<>();
 
-            for(int bi=0; bi<buckets.length; i++){
-                for(HMNode node: buckets[i]){
+            for(int bi=0; bi<buckets.length; bi++){
+                for(HMNode node: buckets[bi]){
                     keys.add(node.key);
                 }
             }
@@ -155,7 +163,7 @@ public class Hashmaps {
             }
         }
 
-        for(char key: hm.keySet()){
+        for(char key: hm.keyset()){
             int val= hm.get(key);
             if(val>freq){
                 freq=val;
@@ -186,6 +194,43 @@ public class Hashmaps {
     }
 
     public static void main(String[] args){
+        // HASHSET
+        // creating
+        HashSet<Integer> set = new HashSet<>();
+
+        //Size
+        System.out.println(set.size());
+
+        //Print all elements
+        System.out.println(set);
+
+        //add /Insert
+        set.add(1);
+        set.add(2);
+        set.add(1);
+        set.add(3);
+
+        //Search - contains
+        if(set.contains(1)){
+            System.out.println("Set contains 1");
+        }
+
+        //Delete
+        set.remove(1);
+        if(!set.contains(1)){
+            System.out.println("Deleted 1");
+        }
+
+        //Iterator
+        Iterator it = set.iterator();
+        // hasnext, next 
+
+        while(it.hasNext()){
+            System.out.println(it.next());
+        }
+
+
+        // HASHMAP
         HashMap<String, Integer> hm= new HashMap<>();
         hm.put("India", 135);
         hm.put("China", 200);
@@ -206,7 +251,7 @@ public class Hashmaps {
         // System.out.println(hm.containsKey("India"));
         // System.out.println(hm.containsKey("Utopia"));
 
-        Set<String> keys = hm.keySet();
+        ArrayList<String> keys = hm.keyset();
         // System.out.println(keys);
 
         // for(String key: hm.keySet()){
