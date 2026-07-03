@@ -1,4 +1,7 @@
 import java.util.*;
+
+//import pepcoding_Java.Heaps.Student;
+
 import java.io.*;
 
 public class Heaps {
@@ -20,88 +23,109 @@ public class Heaps {
     // Min-Heap (Smallest element first)
     // Max-Heap (Largest element first)
 
-    public static class MedianPriorityQueue{
-        PriorityQueue<Integer> left; // for smaller half of data
-        PriorityQueue<Integer> right; // for greater half of data
+    // public static class MedianPriorityQueue{
+    //     PriorityQueue<Integer> left; // for smaller half of data
+    //     PriorityQueue<Integer> right; // for greater half of data
 
-        public MedianPriorityQueue(){
-            left= new PriorityQueue<>(Collections.reverseOrder());
-            right= new PriorityQueue<>();
-        }
+    //     public MedianPriorityQueue(){
+    //         left= new PriorityQueue<>(Collections.reverseOrder());
+    //         right= new PriorityQueue<>();
+    //     }
 
-        void add(int num){
+    //     void add(int num){
 
-            if(left.isEmpty() || num<=left.peek()){
-                left.add(num);
-            }
-            else{
-                right.add(num);
-            }
+    //         if(left.isEmpty() || num<=left.peek()){
+    //             left.add(num);
+    //         }
+    //         else{
+    //             right.add(num);
+    //         }
 
-            if(left.size()>right.size()+1){
-                right.add(left.remove());
-            }
-            else if(right.size()>left.size()){
-                left.add(right.remove());
-            }
-        }
+    //         if(left.size()>right.size()+1){
+    //             right.add(left.remove());
+    //         }
+    //         else if(right.size()>left.size()){
+    //             left.add(right.remove());
+    //         }
+    //     }
 
-        int peek(){
-            if(this.size()==0){
-                System.out.println("Underflow");
-                return -1;
-            }
+    //     int peek(){
+    //         if(this.size()==0){
+    //             System.out.println("Underflow");
+    //             return -1;
+    //         }
 
-            return left.peek();
-        }
+    //         return left.peek();
+    //     }
 
-        int size(){
-            return (left.size()+right.size());
-        }
+    //     int size(){
+    //         return (left.size()+right.size());
+    //     }
 
-        int remove(){
-            if(this.size()==0){
-                System.out.println("Underflow");
-                return -1;
-            }
+    //     int remove(){
+    //         if(this.size()==0){
+    //             System.out.println("Underflow");
+    //             return -1;
+    //         }
 
-            int val = left.remove();
+    //         int val = left.remove();
 
-            if(right.size() > left.size()){
-                left.add(right.remove());
-            }
+    //         if(right.size() > left.size()){
+    //             left.add(right.remove());
+    //         }
 
-            return val;
-        }
-    }
+    //         return val;
+    //     }
+    // }
 
     public static class PriorityQueue<T>{
         ArrayList<T> data;
+        Comparator<T> comp;
 
         public PriorityQueue(){
             data = new ArrayList<>();
+            comp=null;
         }
 
-        public PriorityQueue(int[] arr){
-            data= new ArrayList<>();
-            for(int val: arr){
-                data.add(val); // if we write this.add(val) it will call add method and hence will call upheapify
-                // which will take O(nlogn) time 
-            }
-
-            for(int i= data.size()/2 - 1; i>=0; i--){
-                downheapify(i);  // by this way we have reduced time to O(n)
-            }
+        public PriorityQueue(Comparator<T> comp){
+            data = new ArrayList<>();
+            this.comp = comp;
         }
+
+
+        // public PriorityQueue(int[] arr){
+        //     data= new ArrayList<>();
+        //     for(int val: arr){
+        //         data.add(val); // if we write this.add(val) it will call add method and hence will call upheapify
+        //         // which will take O(nlogn) time 
+        //     }
+
+        //     for(int i= data.size()/2 - 1; i>=0; i--){
+        //         downheapify(i);  // by this way we have reduced time to O(n)
+        //     }
+        // }
 
         private boolean isSmaller(int i, int j){
-            Comparable ith= (Comparable)data.get(i);
-            Comparable jth= (Comparable)data.get(j);
-            if(ith.compareTo(jth)<0){
-                return true;
+            if(comp == null){
+                T ith = data.get(i);
+                T jth = data.get(j);
+
+                if (((Comparable<T>) ith).compareTo(jth) < 0) {
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
             else{
-                return false;
+                T ith= data.get(i);
+                T jth= data.get(j);
+                if(comp.compare(ith, jth)<0){
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
         }
 
@@ -198,11 +222,25 @@ public class Heaps {
 
         public int compareTo(Student o){
             // return this.ht - o.ht;
-            return o.ht - this.ht;
+            return o.rno - this.rno;
         }
 
         public String toString(){
             return "rno = " + this.rno + ", Ht = " + this.ht + ", Wt = " + this.wt;
+        }
+    }
+
+    // Comparator interface is used for comparing on more than one parameter
+
+    static class StudentHtComparator implements Comparator<Student> {
+        public int compare(Student s1, Student s2){
+            return s1.ht - s2.ht;
+        }
+    }
+
+    static class StudentWtComparator implements Comparator<Student> {
+        public int compare(Student s1, Student s2){
+            return s1.wt - s2.wt;
         }
     }
 
@@ -229,27 +267,27 @@ public class Heaps {
         return rv;
     }
 
-    public static int[] KSortedArray(int[] arr, int k){
+    // public static int[] KSortedArray(int[] arr, int k){
 
-        PriorityQueue<Integer> pq= new PriorityQueue<>();
-        int idx = 0;
+    //     PriorityQueue<Integer> pq= new PriorityQueue<>();
+    //     int idx = 0;
         
-        for(int i=0; i<arr.length; i++){
-            if(i<k+1){
-                pq.add(arr[i]);
-            }
-            else{
-                arr[idx++] = pq.remove();
-                pq.add(arr[i]);
-            }
-        }
+    //     for(int i=0; i<arr.length; i++){
+    //         if(i<k+1){
+    //             pq.add(arr[i]);
+    //         }
+    //         else{
+    //             arr[idx++] = pq.remove();
+    //             pq.add(arr[i]);
+    //         }
+    //     }
 
-        while (!pq.isEmpty()) {
-            arr[idx++] = pq.remove();
-        }
+    //     while (!pq.isEmpty()) {
+    //         arr[idx++] = pq.remove();
+    //     }
 
-        return arr;
-    }
+    //     return arr;
+    // }
 
     public static void main(String[] args){
         //PriorityQueue<Integer> pq= new PriorityQueue<>(); // for Min-Heap
@@ -264,7 +302,7 @@ public class Heaps {
         //     pq.remove();
         // }
 
-        PriorityQueue<Student> pq= new PriorityQueue<>();
+        PriorityQueue<Student> pq= new PriorityQueue<>(new StudentWtComparator());
 
         pq.add(new Student(10, 180, 85));
         pq.add(new Student(2, 185, 85));
