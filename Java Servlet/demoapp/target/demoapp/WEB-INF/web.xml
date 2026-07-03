@@ -1,0 +1,28 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  
+  <!-- For each servlet you create a servlet tag and a servlet-mapping tag -->
+  <servlet>
+    <servlet-name>abc</servlet-name>
+    <servlet-class>com.telusko.AddServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>abc</servlet-name>
+    <url-pattern>/add</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>pqr</servlet-name>
+    <servlet-class>com.telusko.SqServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pqr</servlet-name>
+    <url-pattern>/sq</url-pattern>
+  </servlet-mapping>
+
+</web-app>
