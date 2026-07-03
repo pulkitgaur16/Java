@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.PriorityQueue;
@@ -20,6 +21,18 @@ public class Graphs {
             this.src = src;
             this.nbr = nbr;
             this.wt = wt;
+        }
+    }
+
+    //Note: the below pair is for BFS in graphs
+    //For BFS remember remove-mark*-work-add*
+    static class pair{
+        int v;
+        String psf;
+
+        pair(int v, String psf){
+            this.v = v;
+            this.psf = psf;
         }
     }
 
@@ -96,8 +109,43 @@ public class Graphs {
     //         count++;
     //     }
     //    }
-        HashSet<Integer> visited = new HashSet<>();
-        hamiltonian(graph, src, visited, src + "", 0);
+        // HashSet<Integer> visited = new HashSet<>();
+        // hamiltonian(graph, src, visited, src + "", 0);
+
+        // For BFS
+        // ArrayDeque<pair> queue = new ArrayDeque<>();
+        // queue.add(new pair(src, src+""));
+        // boolean[] visited = new boolean[vtces];
+
+        // while(queue.size()>0){
+        //     // r m* w a*
+        //     pair rem = queue.removeFirst();
+        //     if(visited[rem.v] == true){
+        //         continue;
+        //     }
+        //     visited[rem.v] = true;
+            
+        //     System.out.println(rem.v + "@" + rem.psf);
+
+        //     for(Edge e: graph[rem.v]){
+        //         if(visited[e.nbr] == false){
+        //             queue.add(new pair(e.nbr, rem.psf+e.nbr));
+        //         }
+        //     }
+        // }
+
+        boolean[] visited = new boolean[vtces];
+        for(int v = 0; v<vtces; v++){
+            if(visited[v] == false){
+                boolean cycle = IsCyclic(graph, src, visited);
+                if(cycle == true){
+                    System.out.println(true);
+                    return;
+                }
+            }
+        }
+
+        System.out.println(false);
     }
 
     public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
@@ -238,4 +286,25 @@ public class Graphs {
         visited.remove(src);
     } 
      
+    public static boolean IsCyclic(ArrayList<Edge>[] graph, int src, boolean[] visited){
+        ArrayDeque<pair> q  = new ArrayDeque<>();
+        q.add(new pair(src, src+""));
+
+        while(q.size()>0){
+            pair rem = q.removeFirst();
+
+            if(visited[rem.v] == true){
+                return true;
+            }
+            visited[rem.v] = true;
+
+            for(Edge e: graph[rem.v]){
+                if(visited[e.nbr] == false){
+                    q.add(new pair(e.nbr, rem.psf+e.nbr));
+                }
+            }
+        }
+
+        return false;
+    }
 }
