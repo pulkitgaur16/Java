@@ -5,12 +5,19 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.PriorityQueue;
+import java.util.Arrays;
 
 public class Graphs {
     // to visualise graphs
     //i) Adjacency matrix : in terms of 2d array when vertices<10000
 
     //ii) Adjacency list : array of arraylist (arraylist are of edges of graph)
+
+    // Bipartite Graph
+    // if it is possible to divide vertices into 2 mutually exclusive and
+    // exhaustive sets such that all edges are across sets.
+    // Graphs which are either acyclic or if cyclic length is even then the 
+    // graph is bipartite.
 
     static class Edge {
         int src;
@@ -33,6 +40,18 @@ public class Graphs {
         pair(int v, String psf){
             this.v = v;
             this.psf = psf;
+        }
+    }
+
+    public static class BPair{
+        int v; 
+        String psf;
+        int level;
+
+        BPair(int v, String psf, int level){
+            this.v = v;
+            this.psf = psf;
+            this.level = level;
         }
     }
 
@@ -134,18 +153,31 @@ public class Graphs {
         //     }
         // }
 
-        boolean[] visited = new boolean[vtces];
+        // boolean[] visited = new boolean[vtces];
+        // for(int v = 0; v<vtces; v++){
+        //     if(visited[v] == false){
+        //         boolean cycle = IsCyclic(graph, src, visited);
+        //         if(cycle == true){
+        //             System.out.println(true);
+        //             return;
+        //         }
+        //     }
+        // }
+
+        // System.out.println(false);
+
+        int[] visited = new int[vtces];
+        Arrays.fill(visited, -1);
         for(int v = 0; v<vtces; v++){
-            if(visited[v] == false){
-                boolean cycle = IsCyclic(graph, src, visited);
-                if(cycle == true){
-                    System.out.println(true);
+            if(visited[v] == -1){
+                boolean isCompBipartite = checkComponentForBipartiteness(graph, v, visited);
+                if(isCompBipartite== false){
+                    System.out.println(false);
                     return;
                 }
             }
         }
-
-        System.out.println(false);
+        System.out.println(true);
     }
 
     public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
@@ -306,5 +338,31 @@ public class Graphs {
         }
 
         return false;
+    }
+
+    public static boolean checkComponentForBipartiteness(ArrayList<Edge>[] graph, int src, int[] visited){
+        ArrayDeque<BPair> q  = new ArrayDeque<>();
+        q.add(new BPair(src, src+"", 0));
+
+        while(q.size()>0){
+            BPair rem = q.removeFirst();
+
+            if(visited[rem.v] != -1){
+                if(rem.level != visited[rem.v]){
+                    return false;
+                }
+            }
+            else{
+                visited[rem.v] = rem.level;
+            }
+
+            for(Edge e: graph[rem.v]){
+                if(visited[e.nbr] == -1){
+                    q.add(new BPair(e.nbr, rem.psf+e.nbr, rem.level + 1));
+                }
+            }
+        }
+
+        return true;
     }
 }
