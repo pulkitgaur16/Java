@@ -19,6 +19,8 @@ public class Graphs {
     // Graphs which are either acyclic or if cyclic length is even then the 
     // graph is bipartite.
 
+    // Dijkstra Algorithm
+
     static class Edge {
         int src;
         int nbr;
@@ -55,13 +57,29 @@ public class Graphs {
         }
     }
 
-    static class Pair implements Comparable<Pair>{
-        int wsf;
-        String psf;
+    // static class Pair implements Comparable<Pair>{
+    //     int wsf;
+    //     String psf;
 
-        Pair(int wsf, String psf){
-            this.wsf = wsf;
+    //     Pair(int wsf, String psf){
+    //         this.wsf = wsf;
+    //         this.psf = psf;
+    //     }
+
+    //     public int compareTo(Pair o){
+    //         return this.wsf - o.wsf;
+    //     }
+    // }
+
+    public static class Pair implements Comparable<Pair>{
+        int v;
+        String psf;
+        int wsf;
+
+        Pair(int v, String psf, int wsf){
+            this.v = v;
             this.psf = psf;
+            this.wsf = wsf;
         }
 
         public int compareTo(Pair o){
@@ -96,7 +114,7 @@ public class Graphs {
 
         int src = Integer.parseInt(br.readLine());
         
-        // int dest = Integer.parseInt(br.readLine());
+        int dest = Integer.parseInt(br.readLine());
 
         // boolean[] visited = new boolean[vtces];
         // boolean path = hasPath(graph, src, dest, visited);
@@ -166,18 +184,22 @@ public class Graphs {
 
         // System.out.println(false);
 
-        int[] visited = new int[vtces];
-        Arrays.fill(visited, -1);
-        for(int v = 0; v<vtces; v++){
-            if(visited[v] == -1){
-                boolean isCompBipartite = checkComponentForBipartiteness(graph, v, visited);
-                if(isCompBipartite== false){
-                    System.out.println(false);
-                    return;
-                }
-            }
-        }
-        System.out.println(true);
+        // int[] visited = new int[vtces];
+        // Arrays.fill(visited, -1);
+        // for(int v = 0; v<vtces; v++){
+        //     if(visited[v] == -1){
+        //         boolean isCompBipartite = checkComponentForBipartiteness(graph, v, visited);
+        //         if(isCompBipartite== false){
+        //             System.out.println(false);
+        //             return;
+        //         }
+        //     }
+        // }
+        // System.out.println(true);
+
+        boolean[] visited = new boolean[vtces];
+
+        String path = ShortestPathInWeights(graph, src, dest, visited);
     }
 
     public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
@@ -216,56 +238,56 @@ public class Graphs {
         visited[src] = false;
     }
 
-    static String spath;
-    static Integer spathwt = Integer.MAX_VALUE;
-    static String lpath;
-    static Integer lpathwt = Integer.MIN_VALUE;
-    static String cpath;
-    static Integer cpathwt = Integer.MAX_VALUE;
-    static String fpath;
-    static Integer fpathwt = Integer.MIN_VALUE;
-    static PriorityQueue<Pair> pq = new PriorityQueue<>();
-    public static void multisolver(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited, int criteria, int k, String psf, int wsf){
-        if(src==dest){
-            if(wsf<spathwt){
-                spathwt= wsf;
-                spath= psf;
-            }
-            if(wsf>lpathwt){
-                lpathwt= wsf;
-                lpath= psf;
-            }
+    // static String spath;
+    // static Integer spathwt = Integer.MAX_VALUE;
+    // static String lpath;
+    // static Integer lpathwt = Integer.MIN_VALUE;
+    // static String cpath;
+    // static Integer cpathwt = Integer.MAX_VALUE;
+    // static String fpath;
+    // static Integer fpathwt = Integer.MIN_VALUE;
+    // static PriorityQueue<Pair> pq = new PriorityQueue<>();
+    // public static void multisolver(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited, int criteria, int k, String psf, int wsf){
+    //     if(src==dest){
+    //         if(wsf<spathwt){
+    //             spathwt= wsf;
+    //             spath= psf;
+    //         }
+    //         if(wsf>lpathwt){
+    //             lpathwt= wsf;
+    //             lpath= psf;
+    //         }
 
-            if(wsf > criteria && wsf < cpathwt){
-                cpathwt = wsf;
-                cpath = psf;
-            }
+    //         if(wsf > criteria && wsf < cpathwt){
+    //             cpathwt = wsf;
+    //             cpath = psf;
+    //         }
 
-            if(wsf < criteria && wsf > fpathwt){
-                fpathwt = wsf;
-                fpath = psf;
-            }
+    //         if(wsf < criteria && wsf > fpathwt){
+    //             fpathwt = wsf;
+    //             fpath = psf;
+    //         }
             
-            if(pq.size()<k){
-                pq.add(new Pair(wsf, psf));
-            }
-            else{
-                if(wsf > pq.peek().wsf){
-                    pq.remove();
-                    pq.add(new Pair(wsf, psf));
-                }
-            }
-            return;
-        }
+    //         if(pq.size()<k){
+    //             pq.add(new Pair(wsf, psf));
+    //         }
+    //         else{
+    //             if(wsf > pq.peek().wsf){
+    //                 pq.remove();
+    //                 pq.add(new Pair(wsf, psf));
+    //             }
+    //         }
+    //         return;
+    //     }
 
-        visited[src] = true;
-        for(Edge e: graph[src]){
-            if(visited[e.nbr] == false){
-                multisolver(graph, e.nbr, dest, visited, criteria, k, psf + e.nbr , wsf + e.wt);
-            }
-        }
-        visited[src]=false;
-    }
+    //     visited[src] = true;
+    //     for(Edge e: graph[src]){
+    //         if(visited[e.nbr] == false){
+    //             multisolver(graph, e.nbr, dest, visited, criteria, k, psf + e.nbr , wsf + e.wt);
+    //         }
+    //     }
+    //     visited[src]=false;
+    // }
 
     public static void drawTree(ArrayList<Edge>[] graph, int src, ArrayList<Integer> comp, boolean[] visited){
         visited[src] = true;
@@ -364,5 +386,32 @@ public class Graphs {
         }
 
         return true;
+    }
+
+    public static String ShortestPathInWeights(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        pq.add(new Pair(src, src+"", 0));
+
+        while(pq.size()>0){
+            
+            Pair rem = pq.remove();
+
+            if(rem.v == dest){
+                return rem.psf;
+            }
+
+            if(visited[rem.v] == true){
+                continue;
+            }
+            visited[rem.v] = true;
+
+            for(Edge e: graph[rem.v]){
+                if(visited[e.nbr] == false){
+                    pq.add(new Pair(e.nbr, rem.psf+e.nbr, rem.wsf+e.wt));
+                }
+            }
+        }
+
+        return "";
     }
 }
