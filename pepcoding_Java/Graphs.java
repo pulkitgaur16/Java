@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Arrays;
+import java.util.Stack;
 
 public class Graphs {
     // to visualise graphs
@@ -20,6 +21,19 @@ public class Graphs {
     // graph is bipartite.
 
     // Dijkstra Algorithm
+
+    // Minimum Spanning tree (MST) / Prim's Algorithm
+    // i) it's a subgraph
+    // ii) it's a type of tree (connected acyclic graph)
+    // iii) spanning (contains all vertices)
+    // iv) now the above will form a spanning tree, MST will be that whose
+    // sum of edges wt is minimum
+
+    // Topological Sort: A permutation of vertices for a directed acyclic graph
+    // is called topological sort if for directed edges uv, u appears before v
+    // in the graph
+    // used where there is a dependency of work
+    // Order of work is reverse of topological sort
 
     static class Edge {
         int src;
@@ -197,9 +211,21 @@ public class Graphs {
         // }
         // System.out.println(true);
 
-        boolean[] visited = new boolean[vtces];
+        // boolean[] visited = new boolean[vtces];
 
-        String path = ShortestPathInWeights(graph, src, dest, visited);
+        // String path = ShortestPathInWeights(graph, src, dest, visited);
+
+        boolean[] visited = new boolean[vtces];
+        Stack<Integer> st = new Stack<>();
+        for(int v=0; v < vtces; v++){
+            if(visited[v] == false){
+                topologicalSort(graph, v, visited, st);
+            }
+        }
+
+        while (st.size()>0) {
+            System.out.println(st.pop());
+        }
     }
 
     public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
@@ -397,6 +423,7 @@ public class Graphs {
             Pair rem = pq.remove();
 
             if(rem.v == dest){
+  
                 return rem.psf;
             }
 
@@ -413,5 +440,15 @@ public class Graphs {
         }
 
         return "";
+    }
+
+    public static void topologicalSort(ArrayList<Edge>[] graph, int src, boolean[] visited, Stack<Integer> st){
+        visited[src] = true;
+        for(Edge e:graph[src]){
+            if(visited[e.nbr] == false){
+                topologicalSort(graph, e.nbr, visited, st);
+            }
+        }
+        st.push(src);
     }
 }
