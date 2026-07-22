@@ -5,6 +5,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -13,6 +14,9 @@ public class Graphs {
     //i) Adjacency matrix : in terms of 2d array when vertices<10000
 
     //ii) Adjacency list : array of arraylist (arraylist are of edges of graph)
+
+    // Hamiltonian path: path from a vertex that visits all vertices without visiting any vertex twice.
+    // Hamiltonian cycle: a hamiltonian path becomes this if there is a direct edge b/w 1st and last vertex.
 
     // Bipartite Graph
     // if it is possible to divide vertices into 2 mutually exclusive and
@@ -34,6 +38,12 @@ public class Graphs {
     // in the graph
     // used where there is a dependency of work
     // Order of work is reverse of topological sort
+
+    // To find shortest path we use BFS
+    // DFS can be done via Recursion or iteration (using stack)
+    // However for a tree with many vertex like 1 lakh only DFS with iteration
+    // can work since with recursion it will give stack (call stack) overflow
+    // error
 
     static class Edge {
         int src;
@@ -103,9 +113,9 @@ public class Graphs {
 
     public static void main(String[] args) throws Exception {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
 
-        int vtces = Integer.parseInt(br.readLine());
+        int vtces = sc.nextInt();
 
         ArrayList<Edge>[] graph = new ArrayList[vtces];
 
@@ -113,22 +123,20 @@ public class Graphs {
             graph[i] = new ArrayList<>();
         }
 
-        int edges = Integer.parseInt(br.readLine());
+        int edges = sc.nextInt();
 
         for (int i = 0; i < edges; i++) {
-            String[] parts = br.readLine().split(" ");
-
-            int v1 = Integer.parseInt(parts[0]);
-            int v2 = Integer.parseInt(parts[1]);
-            int wt = Integer.parseInt(parts[2]);
+            int v1 = sc.nextInt();
+            int v2 = sc.nextInt();
+            int wt = sc.nextInt();
 
             graph[v1].add(new Edge(v1, v2, wt));
             graph[v2].add(new Edge(v2, v1, wt));
         }
 
-        int src = Integer.parseInt(br.readLine());
-        
-        int dest = Integer.parseInt(br.readLine());
+        int src = sc.nextInt();
+
+        int dest = sc.nextInt();
 
         // boolean[] visited = new boolean[vtces];
         // boolean path = hasPath(graph, src, dest, visited);
@@ -325,7 +333,7 @@ public class Graphs {
         }
     }
 
-    public static void drawTreeForComponent(int[][] arr, int i, int j, boolean[][] visited){
+    public static void drawTreeForComponent(int[][] arr, int i, int j, boolean[][] visited){ // this method is for to count number of islands type questions
         if(i<0 || j<0 || i>=arr.length || j>=arr[0].length || arr[i][j]==1 || visited[i][j] == true){
             return;
         }
@@ -451,4 +459,26 @@ public class Graphs {
         }
         st.push(src);
     }
+
+    public static void IterativeDFS(ArrayList<Edge>[] graph, int src, boolean[] visited, Stack<pair> st){
+        st.push(new pair(src, src + ""));
+
+        while(st.size()>0){
+            pair rem = st.pop();
+
+            if(visited[rem.v] == true){
+                continue;
+            }
+            visited[rem.v] = true;
+
+            System.out.println(rem.v + "@" + rem.psf);
+
+            for(Edge e: graph[rem.v]){
+                if(visited[e.nbr] == false){
+                    st.push(new pair(e.nbr, rem.psf+e.nbr));
+                }
+            }
+        }
+    }
 }
+
