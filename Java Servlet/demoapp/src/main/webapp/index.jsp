@@ -1,6 +1,6 @@
 <html>
 <body>
-<form action="add" method="get">
+<form action="add.jsp" method="get">
 
     Enter 1st number : <input type="text" name="num1"><br>
     Enter 2nd number : <input type="text" name="num2"><br>
