@@ -21,8 +21,8 @@
         rs.next();
     %>
 
-    Rollno : <%= rs.getString("rollno")%>
-    Name: <%= rs.getString("name")%>
-    Marks: <%= rs.getString("marks")%>
+    Rollno : <%= rs.getString("rollno")%> <br>
+    Name: <%= rs.getString("name")%> <br>
+    Marks: <%= rs.getString("marks")%> <br>
 </body>
 </html>

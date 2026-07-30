@@ -1,3 +1,5 @@
 com\telusko\MyServlet.class
 com\telusko\SqServlet.class
 com\telusko\AddServlet.class
+com\telusko\demoServlet.class
+com\telusko\Student.class
