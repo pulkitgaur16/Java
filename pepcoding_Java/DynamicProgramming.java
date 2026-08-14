@@ -63,6 +63,10 @@ public class DynamicProgramming {
     }
 
     // Below method is DP tabulation
+    // Always while solving with this method use these 3 steps
+    // -> Storage and meaning
+    // -> Direction
+    // -> Travel and solve
     public static int countPathsTab(int n){
         int[] dp = new int[n+1];
 
@@ -117,5 +121,66 @@ public class DynamicProgramming {
         }
 
         return dp[0];
+    }
+
+    public static int MinCostPath(int[][] cost){
+        int n= cost.length;
+        int m = cost[0].length;
+
+        Integer[][] dp = new Integer[n][m];
+        dp[n-1][m-1] = cost[n-1][m-1];
+
+        for(int i=n-1; i>=0; i--){
+            int min = Integer.MAX_VALUE;
+            for(int j=m-1; j>=0; j--){
+                if(dp[i][j] == null){
+                    if(j<m-1){
+                        min = dp[i][j+1];
+                    }
+                    if(i<n-1){
+                        if(min>dp[i+1][j]){
+                            min = dp[i+1][j];
+                        }
+                    }
+
+                    dp[i][j] = min + cost[i][j];
+                }
+            }
+        }
+
+        return dp[0][0];
+    }
+
+    public static int GoldMine(int[][] gold){
+        int n = gold.length;
+        int m = gold[0].length;
+
+        int[][] dp = new int[n][m];
+
+        for(int i=0; i<n; i++){
+            dp[i][0] = gold[i][0];
+            for(int j=0; j<m; j++){
+                if(i>0 && j<m-1){
+                    dp[i-1][j+1] = Math.max(dp[i-1][j+1], dp[i][j] + gold[i-1][j+1]);
+                }
+                if(j<m-1){
+                    dp[i][j+1] = Math.max(dp[i][j+1], dp[i][j] + gold[i][j+1]);
+                }
+                if(i<n-1 && j<m-1){
+                    dp[i+1][j+1] = Math.max(dp[i+1][j+1], dp[i][j] + gold[i+1][j+1]);
+                }
+            }
+        }
+
+        int max=0;
+
+        int col = m-1;
+        for(int i=0; i<n; i++){
+            if(dp[i][col] > max){
+                max = dp[i][col];
+            }
+        }
+
+        return max;
     }
 }
