@@ -237,4 +237,51 @@ public class DynamicProgramming {
 
         return max;
     }
+
+    public static int minPaintCost(int[][] PaintCosts){
+        int n = PaintCosts.length;
+        int k = PaintCosts[0].length;
+
+        int[][] dp = new int[n][k];
+
+        int least = Integer.MAX_VALUE;
+        int sleast = Integer.MAX_VALUE;
+        for(int j=0; j<k; j++){
+            dp[0][j] = PaintCosts[0][j];
+
+            if(dp[0][j] <= least){
+                sleast = least;
+                least = dp[0][j];
+            }
+            else if(dp[0][j] <= sleast){
+                sleast = dp[0][j];
+            }
+        }
+
+        for (int i = 1; i < dp.length; i++) {
+            int nleast = Integer.MAX_VALUE;
+            int nsleast = Integer.MAX_VALUE;
+            for (int j = 0; j < dp.length; j++) {
+                if(least == dp[i-1][j]){
+                    dp[i][j] = sleast + PaintCosts[i][j]; 
+                }
+                else{
+                    dp[i][j] = least + PaintCosts[i][j];
+                }
+
+                if(dp[i][j] <= nleast){
+                nsleast = nleast;
+                nleast = dp[i][j];
+                }
+                else if(dp[i][j] <= nsleast){
+                    nsleast = dp[i][j];
+                }
+            }
+
+            least = nleast;
+            sleast = nsleast;
+        }
+
+        return least;
+    }
 }
