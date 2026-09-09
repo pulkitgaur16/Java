@@ -308,4 +308,33 @@ public class DynamicProgramming {
 
         return dp[k][n];
     }
+
+    public static int BestTimeToBuySell(int[] arr, int transFee){
+        int obsp = -arr[0];
+        int ossp = 0;
+
+        for(int i=1; i<arr.length; i++){
+            int nbsp = 0;
+            int nssp = 0;
+
+            if(ossp - arr[i] > obsp){
+                nbsp = ossp - arr[i];
+            }
+            else{
+                nbsp = obsp;
+            }
+
+            if(obsp + arr[i] - transFee > ossp){
+                nssp = obsp + arr[i] - transFee;
+            }
+            else{
+                nssp = ossp;
+            }
+
+            obsp = nbsp;
+            ossp = nssp;
+        }
+
+        return ossp;
+    }
 }
